@@ -10,6 +10,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
+import pe.edu.cibertec.retrofitgitflow.MyApplication;
 import pe.edu.cibertec.retrofitgitflow.R;
 import pe.edu.cibertec.retrofitgitflow.data.entities.Post;
 import pe.edu.cibertec.retrofitgitflow.domain.post_detail_interactor.PostDetailInteractorImpl;
@@ -20,6 +23,7 @@ public class PostDetailActivity extends AppCompatActivity implements IPostDetail
 
     private ProgressBar progressBarDetail;
     private Post post;
+    @Inject
     PostPresenter presenter;
     private TextView titulo;
     private TextView texto;
@@ -33,7 +37,12 @@ public class PostDetailActivity extends AppCompatActivity implements IPostDetail
             showError("No llegó el id");
             finish();
         }
-        presenter = new PostPresenter(new PostDetailInteractorImpl());
+        // Se comenta la inicialización xq ya se hará con la inyeccion
+        //presenter = new PostPresenter(new PostDetailInteractorImpl());
+        MyApplication myApplication = (MyApplication)getApplication();
+        myApplication.getAppComponent().inject(this );
+
+
         presenter.attachView(this);
         presenter.getPost(id);
 

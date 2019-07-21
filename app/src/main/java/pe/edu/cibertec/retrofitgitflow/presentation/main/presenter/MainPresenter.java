@@ -2,14 +2,17 @@ package pe.edu.cibertec.retrofitgitflow.presentation.main.presenter;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import pe.edu.cibertec.retrofitgitflow.data.entities.Post;
 import pe.edu.cibertec.retrofitgitflow.domain.main_interactor.IMainInteractor;
 import pe.edu.cibertec.retrofitgitflow.presentation.main.MainContract;
 
 public class MainPresenter implements MainContract.IPresenter {
     MainContract.IView view;
-    IMainInteractor interactor;
+    private final IMainInteractor interactor;
 
+    @Inject
     public MainPresenter(IMainInteractor interactor){
         this.interactor = interactor;
     }

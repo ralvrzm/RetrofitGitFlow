@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RetrofitGitFlow</string>
+    <string name="tvSubtitulo">Subtítulo</string>
+    <string name="tvTexto">Texto</string>
 </resources>

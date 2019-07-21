@@ -14,6 +14,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import pe.edu.cibertec.retrofitgitflow.MyApplication;
 import pe.edu.cibertec.retrofitgitflow.R;
 import pe.edu.cibertec.retrofitgitflow.data.entities.Post;
 import pe.edu.cibertec.retrofitgitflow.domain.main_interactor.MainInteractorImpl;
@@ -34,12 +37,22 @@ public class MainActivity extends AppCompatActivity implements MainContract.IVie
     private PostAdapter postAdapter;
     private ProgressBar progressBarMain;
     private List<Post> postList;
-    private MainPresenter presenter;
+    @Inject
+    MainPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MyApplication application = (MyApplication)getApplication();
+        application.getAppComponent().inject(this);
+
+        // inicializando el presenter
+        // Ahora se hace con la inyeccion
+        // presenter = new MainPresenter(new MainInteractorImpl());
+        presenter.attachView(this);
+
         textViewResult = findViewById(R.id.textViewResult);
 
         progressBarMain = findViewById(R.id.progressBarMain);
@@ -47,9 +60,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.IVie
         recyclerViewPosts.setLayoutManager(new LinearLayoutManager(this));
         postList = new ArrayList<>();
         postAdapter = new PostAdapter(postList);
-        // inicializando el preenter
-        presenter = new MainPresenter(new MainInteractorImpl());
-        presenter.attachView(this);
+
 
         // para cuando se haga click en un item te lleva a su detalle
         postAdapter.setOnItemClickListener(new PostClickListener() {
